@@ -7,6 +7,7 @@
 #include "comm/bmsh_config.h"
 #include "redis/redispooladmin.h"
 
+6666666666666666666666
 
 static const string g_str_secret = "100MSH";
 string DealAuth::s_icomet_jsonstr;
@@ -16,7 +17,7 @@ DealAuth::DealAuth( struct evhttp_request* req, ThreadData* tdata ): DealBase(re
 }
 
 // static
-// xxx/cloud/authÇëÇóÈë¿Ú
+// xxx/cloud/authè¯·æ±‚å…¥å£
 int DealAuth::Run( struct evhttp_request* req, ThreadData* tdata )
 {
     int ret;
@@ -29,7 +30,7 @@ int DealAuth::Run( struct evhttp_request* req, ThreadData* tdata )
     string md5;
     string err_reason;
 
-// ²ÎÊıÌáÈ¡, ±ØÑ¡Ê±reasonÊÇ³ö´íÌáÊ¾, ¿ÉÑ¡²ÎÊıÓÃreason=0
+// å‚æ•°æå–, å¿…é€‰æ—¶reasonæ˜¯å‡ºé”™æç¤º, å¯é€‰å‚æ•°ç”¨reason=0
 #define PickStrFromMap(name, reason) { \
 std::map<string, string>::iterator it = querykv.find(#name); \
 if(querykv.end() != it){ name = it->second;}\
@@ -46,8 +47,8 @@ else{}}
         PickStrFromMap(firmware_version, 0);
         PickStrFromMap(random, 0);
 
-#if 0 // µ÷ÊÔÊ±¹Ø±ÕĞ£Ñé
-        // MD5Ç©ÃûºÏ·¨ĞÔÈÏÖ¤
+#if 0 // è°ƒè¯•æ—¶å…³é—­æ ¡éªŒ
+        // MD5ç­¾ååˆæ³•æ€§è®¤è¯
         {
             MD5 calcmd5(device_mac + random + g_str_secret);
             if (md5 != calcmd5.toString())
@@ -61,7 +62,7 @@ else{}}
         }
 #endif
 
-        // ´´½¨ÊµÀı,¼ÓÈëÈÎÎñ¶ÓÁĞ
+        // åˆ›å»ºå®ä¾‹,åŠ å…¥ä»»åŠ¡é˜Ÿåˆ—
         {
             DealAuth* deal = new DealAuth(req, tdata);
             deal->device_id = device_id;
@@ -69,7 +70,7 @@ else{}}
             deal->device_model = device_model;
             deal->firmware_version = firmware_version;
 
-            ret = TaskPool::Instance()->addTask(deal); // µ÷ÓÃaddTask(d)ºó,ÏÂ´ÎÒì²½½øÈëd->run_task();
+            ret = TaskPool::Instance()->addTask(deal); // è°ƒç”¨addTask(d)å,ä¸‹æ¬¡å¼‚æ­¥è¿›å…¥d->run_task();
             if (ret)
             {
                 delete deal;
@@ -80,7 +81,7 @@ else{}}
     }
     while (0);
 
-    if (ret) // ²ÎÊı²»ºÏ·¨µÄÏìÓ¦
+    if (ret) // å‚æ•°ä¸åˆæ³•çš„å“åº”
     {
         ret = SendRespondFail(req, err_reason, ret);
     }
@@ -89,7 +90,7 @@ else{}}
     return ret;
 }
 
-// ²úÉúÒ»¸ösessionËæ»úÊı
+// äº§ç”Ÿä¸€ä¸ªsessionéšæœºæ•°
 string DealAuth::MakeSession( ThreadData* tdata )
 {
     static int s_int = 0;
@@ -101,7 +102,7 @@ string DealAuth::MakeSession( ThreadData* tdata )
     return buff;
 }
 
-// Ö´ĞĞºÄÊ±ÈÎÎñ
+// æ‰§è¡Œè€—æ—¶ä»»åŠ¡
 int DealAuth::run_task( int flag )
 {
     int ret = 0;
@@ -153,7 +154,7 @@ int DealAuth::run_task( int flag )
     return ret;
 }
 
-// eventÏß³ÌÖ´ĞĞ,ÏìÓ¦ÏûÏ¢
+// eventçº¿ç¨‹æ‰§è¡Œ,å“åº”æ¶ˆæ¯
 void DealAuth::resume( int result )
 {
     int ret = SendRespond(m_mainreq, respbody);
@@ -161,7 +162,7 @@ void DealAuth::resume( int result )
     {
         LOGERROR("AUTH_RESP| msg=SendRespond fail| ret=%d| mac=%s", ret, device_mac.c_str());
 
-        evhttp_connection_free(evhttp_request_get_connection(m_mainreq)); // ²»ÄÜ·¢ËÍ,ÌáÇ°¹Ø±Õ
+        evhttp_connection_free(evhttp_request_get_connection(m_mainreq)); // ä¸èƒ½å‘é€,æå‰å…³é—­
         m_mainreq = NULL;
     }
 
